@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-3*2v7$u8-i950+49isr8uz-@q$b@s6t+eg5at%@y@(+hxfzq*i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['sketch-fest.onrender.com']
+# ALLOWED_HOSTS = ['sketch-fest.onrender.com']
 
 # Application definition
 
@@ -85,12 +85,16 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'sf_db',
+        'USER': 'user1',
+        'PASSWORD': 'password',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
 
 
 # Password validation
