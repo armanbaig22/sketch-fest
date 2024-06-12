@@ -9,18 +9,24 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@dicebear/collection": "^8.0.1",
+    "@dicebear/core": "^8.0.1",
+    "axios": "^1.7.2",
+    "framer-motion": "^11.2.10",
+    "next": "14.2.3",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.2.3"
+    "react-draggable": "^4.4.6",
+    "react-icons": "^5.2.1"
   },
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.3",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.3"
+    "typescript": "^5"
   }
 }
