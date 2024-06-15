@@ -7,6 +7,8 @@ import { HiOutlineCursorClick } from "react-icons/hi";
 import { motion } from 'framer-motion';
 import Draggable from 'react-draggable';
 
+import Link from 'next/link';
+
 export default function Home() {
   const [username, setUsername] = useState<string>('');
   const [avatar, setAvatar] = useState<string>('');
@@ -37,7 +39,7 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-orange-50 to-white">
       <Draggable handle=".handle">
-        <div className="flex flex-col items-center bg-white p-8 rounded-lg shadow-lg relative">
+        <div className="flex flex-col items-center bg-slate-50 p-8 rounded-lg shadow-lg relative">
           <div className="handle absolute top-2 right-2 cursor-move">
             <HiOutlineCursorClick size={14} />
           </div>
@@ -79,9 +81,11 @@ export default function Home() {
             <button className="bg-indigo-500 text-white px-6 py-3 rounded hover:bg-indigo-600">
               Play!
             </button>
-            <button className="bg-indigo-500 text-white px-6 py-3 rounded hover:bg-indigo-600">
-              Private Room
-            </button>
+            <Link href="/private">
+              <button className="bg-indigo-500 text-white px-6 py-3 rounded hover:bg-indigo-600">
+                Private Room
+              </button>
+            </Link>
           </div>
         </div>
       </Draggable>
