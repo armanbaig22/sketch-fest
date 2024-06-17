@@ -30,10 +30,10 @@ export default function PrivatePage() {
           />
           <div className="flex space-x-4">
             <button className="bg-indigo-500 text-white px-6 py-3 rounded hover:bg-indigo-600">
-              Join Room
+              Join Game
             </button>
             <button className="bg-indigo-500 text-white px-6 py-3 rounded hover:bg-indigo-600">
-              Create Room
+              Create Game
             </button>
           </div>
         </div>
