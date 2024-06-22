@@ -25,21 +25,31 @@ SECRET_KEY = 'django-insecure-3*2v7$u8-i950+49isr8uz-@q$b@s6t+eg5at%@y@(+hxfzq*i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = ['sketch-fest.onrender.com']
+ALLOWED_HOSTS = [
+    "http://localhost:3000", 
+    "http://127.0.0.1"
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000", 
+    "http://127.0.0.1"
+]
+
 
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
+    'chat',
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app',
     'rest_framework',
     'corsheaders',
-    'channels',
 ]
 
 MIDDLEWARE = [
@@ -47,7 +57,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -81,6 +91,14 @@ ASGI_APPLICATION = 'backend.asgi.application'
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('localhost', 6379)],
+        },
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
