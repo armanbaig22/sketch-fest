@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Avatar, Typography, List, ListItem, ListItemAvatar, ListItemText, Paper } from '@mui/material';
+import { Box, Avatar, Typography, List, ListItem, ListItemAvatar, ListItemText } from '@mui/material';
 
 const players = [
   { name: 'Player 1', score: 100, avatar: '/path/to/avatar1.png' },
@@ -9,7 +9,7 @@ const players = [
 
 const PlayerInfo = () => {
   return (
-    <Paper elevation={3} sx={{ padding: 2, mb: 2 }}>
+    <Box sx={{ padding: 2, mb: 2, bgcolor: 'background.paper', borderRadius: 1}}>
       <Typography variant="h6" gutterBottom>
         Players
       </Typography>
@@ -23,7 +23,7 @@ const PlayerInfo = () => {
           </ListItem>
         ))}
       </List>
-    </Paper>
+    </Box>
   );
 };
 

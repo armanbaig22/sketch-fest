@@ -35,7 +35,7 @@ export default function Chat({ roomName }: { roomName: string }) {
 
   return (
     <Paper elevation={3} sx={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '16px' }}>
-      <Typography variant="h6" gutterBottom>
+      <Typography variant="h6" sx={{borderBottom: '1px solid #e0e0e0' }}>
         Chat
       </Typography>
       <List sx={{ flexGrow: 1, overflowY: 'auto', marginBottom: '16px', padding: '16px' }}>
