@@ -10,8 +10,8 @@ class PlayView(APIView):
             username = serializer.validated_data['username']
             avatar = serializer.validated_data['avatar']
             print("called", username,avatar)
-            # assign the room to user and return it(first check if any room has less than 6 players and not then assign new room)
-            # we need to add the user to that room 
+            # assign the room to user and return it(first check if any room has less than 6 players and if no such room is found then assign new room)
+            # add the user to that room in database
             return Response({},status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
