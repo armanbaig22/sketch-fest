@@ -26,13 +26,13 @@ SECRET_KEY = 'django-insecure-3*2v7$u8-i950+49isr8uz-@q$b@s6t+eg5at%@y@(+hxfzq*i
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "http://localhost:3000", 
-    "http://127.0.0.1"
+    "localhost", 
+    "127.0.0.1"
 ]
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000", 
-    "http://127.0.0.1"
+    "http://127.0.0.1:3000"
 ]
 
 
@@ -41,6 +41,8 @@ CORS_ALLOWED_ORIGINS = [
 INSTALLED_APPS = [
     'daphne',
     'chat',
+    'api',
+    'room',
     'channels',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -64,7 +66,7 @@ MIDDLEWARE = [
 ]
 
 REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES': [
-		'rest_framework.permission.AllowAny']}
+		'rest_framework.permissions.AllowAny']}
 
 CORS_ORIGIN_ALLOW_ALL = True
 

@@ -4,8 +4,11 @@ import { createAvatar } from '@dicebear/core';
 import { adventurer } from '@dicebear/collection';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { HiOutlineCursorClick } from "react-icons/hi";
+import { IoMdReturnLeft } from 'react-icons/io';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+
+import axios from 'axios';
 
 export default function Home() {
   const [username, setUsername] = useState<string>('');
@@ -33,6 +36,21 @@ export default function Home() {
       },
     },
   };
+
+  const handlePlay = async () => {
+    if(username.trim() === ''){
+      alert("Please enter a username");
+      return;
+    }
+
+    try{
+      const response = await axios.post('http://localhost:8000/api/play/', { username, avatar})
+
+      console.log("response", response.data)
+    } catch(error) {
+      console.error('Error:', error)
+    }
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-orange-50 to-white">
@@ -72,7 +90,7 @@ export default function Home() {
           </button>
         </div>
         <div className="flex flex-col space-y-4">
-          <button className="bg-indigo-500 text-white px-6 py-3 rounded hover:bg-indigo-600">
+          <button className="bg-indigo-500 text-white px-6 py-3 rounded hover:bg-indigo-600" onClick={handlePlay}>
             Play!
           </button>
           <Link href="/private">

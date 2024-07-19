@@ -1,11 +1,12 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Container, Grid, Paper, Typography } from '@mui/material';
 import Header from '@/components/Header';
 import PlayerInfo from '@/components/PlayerInfo';
 import Canvas from '@/components/Canvas';
 import Chat from '@/components/Chat';
+import { Socket } from 'dgram';
 
 interface RoomProps {
   params: {
@@ -16,6 +17,10 @@ interface RoomProps {
 export default function Room({params}: RoomProps) {
   const roomName = params.room_id;
 
+  useEffect(() => {
+    const socket = new WebSocket(`ws://localhost:8000/ws/room/${roomName}/`);
+  })
+
   return (
     <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', bgcolor: '#f0f0f0' }}>
       <Box sx={{ width: '80%', textAlign: 'left' }}>
@@ -25,7 +30,7 @@ export default function Room({params}: RoomProps) {
       </Box>
       <Box sx={{ flexShrink: 0, width: '80%', my: 2 }}>
         <Paper elevation={3}>
-          <Header />
+          <Header/>
         </Paper>
       </Box>
       
