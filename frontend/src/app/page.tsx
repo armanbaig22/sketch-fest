@@ -44,8 +44,8 @@ export default function Home() {
     }
 
     try{
-      const response = await axios.post('http://localhost:8000/api/play/', { username, avatar})
-
+      const response = await axios.post('http://localhost:8000/api/play/', { username, avatar })
+      // redirect to the room returned in the response
       console.log("response", response.data)
     } catch(error) {
       console.error('Error:', error)

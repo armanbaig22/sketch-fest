@@ -6,7 +6,6 @@ import Header from '@/components/Header';
 import PlayerInfo from '@/components/PlayerInfo';
 import Canvas from '@/components/Canvas';
 import Chat from '@/components/Chat';
-import { Socket } from 'dgram';
 
 interface RoomProps {
   params: {
