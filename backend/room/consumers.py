@@ -10,6 +10,8 @@ class RoomConsumer(AsyncWebsocketConsumer):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = f'{self.room_name}'
 
+        self.username = None
+        self.avatar = None
         # Join room group
         await self.channel_layer.group_add(
             self.room_group_name,
@@ -18,7 +20,10 @@ class RoomConsumer(AsyncWebsocketConsumer):
 
         await self.accept()
 
-    async def disconnect(self, close_code):
+    async def disconnect(self, close_code):   
+        if self.username:
+            await self.remove_user(self.room_name, self.username)
+
         await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name
@@ -35,11 +40,11 @@ class RoomConsumer(AsyncWebsocketConsumer):
         # Add more actions as needed
 
     async def join_room(self, data):
-        username = data['username']
-        avatar = data['avatar']
-
+        # working
+        self.username = data['username']
+        self.avatar = data['avatar']
         room = await self.get_room(self.room_name)
-        user = await self.create_user(room, username, avatar)
+        user = await self.create_user(room, self.username, self.avatar)
 
         await self.send_room_data()
 
@@ -56,7 +61,7 @@ class RoomConsumer(AsyncWebsocketConsumer):
         room = await self.get_room(self.room_name)
         users = await self.get_users(room)
         room_data = {
-            'name': room.name,
+            'id': room.id,
             'current_word': room.current_word,
             'current_drawer': room.current_drawer.username if room.current_drawer else None,
             'timer': room.timer,
@@ -79,11 +84,16 @@ class RoomConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def get_room(self, room_name):
-        return Room.objects.get(name=room_name)
+        return Room.objects.get(id=room_name)
 
     @database_sync_to_async
     def create_user(self, room, username, avatar):
-        return User.objects.create(room=room, username=username, avatar=avatar)
+        return User.objects.get_or_create(room=room, username=username, avatar=avatar)
+
+    @database_sync_to_async
+    def remove_user(self, room_name, username):
+        room = Room.objects.get(id=room_name)
+        User.objects.filter(room=room, username=username).delete()
 
     @database_sync_to_async
     def get_users(self, room):
