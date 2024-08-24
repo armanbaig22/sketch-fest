@@ -1,9 +1,9 @@
 import random
 import string
-from django.db import models
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
+from django.db import models # type: ignore
+from rest_framework.views import APIView # type: ignore
+from rest_framework.response import Response # type: ignore
+from rest_framework import status # type: ignore
 from room.models import Room, User
 from .serializers import PlaySerializer
 

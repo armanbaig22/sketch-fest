@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, useEffect } from 'react';
 import { createAvatar } from '@dicebear/core';
 import { adventurer } from '@dicebear/collection';
@@ -7,10 +8,14 @@ import { HiOutlineCursorClick } from "react-icons/hi";
 import { IoMdReturnLeft } from 'react-icons/io';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation'
+import { useDispatch } from 'react-redux';
+import { setUser } from '../store/slice'; 
 
 import axios from 'axios';
 
 export default function Home() {
+  const router = useRouter()
   const [username, setUsername] = useState<string>('');
   const [avatar, setAvatar] = useState<string>('');
 
@@ -37,20 +42,26 @@ export default function Home() {
     },
   };
 
+  const dispatch = useDispatch();
+  
   const handlePlay = async () => {
-    if(username.trim() === ''){
-      alert("Please enter a username");
+    if (username.trim() === '') {
+      alert('Please enter a username');
       return;
     }
-
-    try{
-      const response = await axios.post('http://localhost:8000/api/play/', { username, avatar })
-      // redirect to the room returned in the response
-      console.log("response", response.data)
-    } catch(error) {
-      console.error('Error:', error)
+  
+    try {
+      const response = await axios.post('http://localhost:8000/api/play/', { username, avatar });
+      const roomId = response.data.room_id;
+  
+      // Dispatch the username and avatar to Redux store
+      dispatch(setUser({ username, avatar }));
+  
+      router.push(`/room/${roomId}`);
+    } catch (error) {
+      console.error('Error:', error);
     }
-  }
+  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-orange-50 to-white">

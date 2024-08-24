@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models # type: ignore
 
 class Room(models.Model):
     id = models.CharField(primary_key=True, max_length=16, editable=False)

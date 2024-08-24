@@ -1,7 +1,7 @@
 # consumers.py
 import json
-from channels.generic.websocket import AsyncWebsocketConsumer
-from channels.db import database_sync_to_async
+from channels.generic.websocket import AsyncWebsocketConsumer # type: ignore
+from channels.db import database_sync_to_async # type: ignore
 from .models import Room, User
 from .serializers import RoomSerializer, UserSerializer
 
@@ -44,7 +44,8 @@ class RoomConsumer(AsyncWebsocketConsumer):
         self.username = data['username']
         self.avatar = data['avatar']
         room = await self.get_room(self.room_name)
-        user = await self.create_user(room, self.username, self.avatar)
+        if self.username and self.avatar:
+            user = await self.create_user(room, self.username, self.avatar)
 
         await self.send_room_data()
 
@@ -88,12 +89,19 @@ class RoomConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def create_user(self, room, username, avatar):
-        return User.objects.get_or_create(room=room, username=username, avatar=avatar)
+        user, created = User.objects.get_or_create(room=room, username=username, defaults={'avatar': avatar})
+        if not created:
+            # If the user already exists, update the avatar
+            user.avatar = avatar
+            user.save()
+        return user, created
 
     @database_sync_to_async
     def remove_user(self, room_name, username):
         room = Room.objects.get(id=room_name)
-        User.objects.filter(room=room, username=username).delete()
+        user = User.objects.filter(room=room, username=username).first()
+        if user:
+            user.delete()
 
     @database_sync_to_async
     def get_users(self, room):
