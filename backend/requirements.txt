@@ -4,3 +4,5 @@ django-cors-headers
 channels
 daphne
 channels-redis
+dj-database-url
+psycopg2
