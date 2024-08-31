@@ -55,7 +55,7 @@ export default function Home() {
       const roomId = response.data.room_id;
   
       // Dispatch the username and avatar to Redux store
-      dispatch(setUser({ username, avatar }));
+      dispatch(setUser({ username, avatar}));
   
       router.push(`/room/${roomId}`);
     } catch (error) {

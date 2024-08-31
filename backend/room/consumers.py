@@ -46,6 +46,11 @@ class RoomConsumer(AsyncWebsocketConsumer):
         room = await self.get_room(self.room_name)
         if self.username and self.avatar:
             user = await self.create_user(room, self.username, self.avatar)
+        else:
+            await self.send(text_data=json.dumps({
+                'action': 'redirect',
+            }))
+
 
         await self.send_room_data()
 

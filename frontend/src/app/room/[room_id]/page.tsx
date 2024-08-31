@@ -8,7 +8,10 @@ import PlayerInfo from '@/components/PlayerInfo';
 import Canvas from '@/components/Canvas';
 import Chat from '@/components/Chat';
 import { useSelector } from 'react-redux';
+import { useRouter } from 'next/navigation'
 import { RootState } from '@/store/store';
+
+import axios from 'axios';
 
 
 interface RoomProps {
@@ -18,14 +21,32 @@ interface RoomProps {
 }
 
 export default function Room({ params }: RoomProps) {
+  const router = useRouter()
 
   const username = useSelector((state: RootState) => state.user.username);
   const avatar = useSelector((state: RootState) => state.user.avatar);
   const roomId = params.room_id;
-
+  // make a call to backend and check if this room_id exists if not the redirect to "/"
+  
   const [users, setUsers] = useState([]); 
 
+  const checkRoom = async () => {
+    try {
+      const response = await axios.post('http://localhost:8000/room/doesExist/', { room_id: roomId });
+
+      if (!response.data.exists) {
+        router.push("/");
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      router.push("/");
+    }
+  };
+
   useEffect(() => {
+    
+    checkRoom();
+
     const socket = new WebSocket(`ws://localhost:8000/ws/room/${roomId}/`);
 
     socket.onopen = () => {
@@ -42,6 +63,13 @@ export default function Room({ params }: RoomProps) {
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
       console.log('Received message:', data);
+
+      if (data.action === 'redirect') {
+        console.log('Redirecting to home page...');
+        setTimeout(() => {
+          router.push("/");
+        }, 100);
+      }
 
       if (data.users) {
         setUsers(data.users); 
